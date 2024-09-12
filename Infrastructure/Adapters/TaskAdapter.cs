@@ -8,10 +8,14 @@ public class TaskAdapter : ITaskPort
     public void AddTask(TaskModel task) => tasks.Add(task);
     public void UpdateTask(TaskModel task)
     {
-        if (tasks.Contains(task))
+        if (tasks.Any(x=>x.Id == task.Id))
         {
             var updateTask = tasks.Where(x => x.Id == task.Id).FirstOrDefault();
-            updateTask = task;
+            if (updateTask is not null)
+            {
+                updateTask.IsCompleted = task.IsCompleted;
+                updateTask.Name = task.Name;
+            }
         }
     }
     public void DeleteTask(int taskId)
